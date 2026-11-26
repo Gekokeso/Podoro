@@ -17,11 +17,12 @@ const createSite = async (req, res) => {
 };
 
 const updateSite = async (req, res) => {
-  const rule = await SiteRule.findById(req.params.id);
-  if (!rule) { res.status(404); throw new Error('Regla no encontrada'); }
-  if (rule.user.toString() !== req.user.id) { res.status(401); throw new Error('No autorizado'); }
-
-  res.status(200).json(await SiteRule.findByIdAndUpdate(req.params.id, req.body, { new: true }));
+  const { mode, dailyLimitMinutes, enabled } = req.body;
+const updated = await SiteRule.findByIdAndUpdate(
+  req.params.id,
+  { mode, dailyLimitMinutes, enabled },
+  { new: true, runValidators: true });
+  res.status(200).json(updated);
 };
 
 const deleteSite = async (req, res) => {

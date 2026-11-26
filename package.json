@@ -1,5 +1,5 @@
 {
-  "name": "Podoro",
+  "name": "podoro",
   "version": "1.0.0",
   "description": "Controla tu tiempo",
   "main": "backend/server.js",

@@ -1,21 +1,9 @@
-// backend/controllers/usageController.js
-const Usage = require('../models/usageModel');
+const express = require('express');
+const router = express.Router();
+const { getSites, createSite, updateSite, deleteSite } = require('../controllers/sitesController');
+const { protect } = require('../middleware/authMiddleware');
 
-// La extensión llama aquí cada ~30s con { domain, date, seconds }
-const addUsage = async (req, res) => {
-  const { domain, date, seconds } = req.body;
-  if (!domain || !date || !seconds) { res.status(400); throw new Error('Faltan datos'); }
+router.route('/').get(protect, getSites).post(protect, createSite);
+router.route('/:id').put(protect, updateSite).delete(protect, deleteSite);
 
-  const usage = await Usage.findOneAndUpdate(
-    { user: req.user.id, domain, date },
-    { $inc: { seconds } },     // suma atómica, sin condiciones de carrera
-    { upsert: true, new: true }
-  );
-  res.status(200).json(usage);
-};
-
-const getUsageByDate = async (req, res) => {
-  res.status(200).json(await Usage.find({ user: req.user.id, date: req.params.date }));
-};
-
-module.exports = { addUsage, getUsageByDate };
+module.exports = router;

@@ -83,3 +83,7 @@ async function syncBlockRules() {
     }
   }
 }
+
+chrome.runtime.onMessage.addListener((msg) => {
+  if (msg.type === 'RULES_CHANGED') syncBlockRules();
+});
