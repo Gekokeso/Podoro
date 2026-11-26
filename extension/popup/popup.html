@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Focus Limiter</title>
+  <link rel="stylesheet" href="popup.css">
+</head>
+<body>
+  <!-- Vista: acceso -->
+  <section id="auth-view" hidden>
+    <h1 id="auth-title">Inicia sesión</h1>
+    <form id="auth-form" novalidate>
+      <label id="name-field" hidden>Nombre
+        <input id="name" type="text" autocomplete="name">
+      </label>
+      <label>Correo
+        <input id="email" type="email" autocomplete="email" required>
+      </label>
+      <label>Contraseña
+        <input id="password" type="password" autocomplete="current-password" required>
+      </label>
+      <button id="auth-submit" type="submit" class="primary">Iniciar sesión</button>
+    </form>
+    <p id="auth-message" class="message" role="alert"></p>
+    <button id="auth-toggle" type="button" class="link">¿No tienes cuenta? Crea una</button>
+  </section>
+
+  <!-- Vista: sitios -->
+  <section id="main-view" hidden>
+    <header>
+      <h1>Mis sitios</h1>
+      <button id="logout" type="button" class="link">Cerrar sesión</button>
+    </header>
+
+    <ul id="site-list" aria-live="polite"></ul>
+    <p id="empty" class="muted" hidden>Aún no limitas ningún sitio. Agrega el primero abajo.</p>
+
+    <form id="site-form" novalidate>
+      <label>Sitio
+        <input id="domain" type="text" placeholder="youtube.com" required>
+      </label>
+      <div class="row">
+        <label>Modo
+          <select id="mode">
+            <option value="limit">Límite diario</option>
+            <option value="block">Bloquear siempre</option>
+          </select>
+        </label>
+        <label id="limit-field">Minutos al día
+          <input id="limit" type="number" min="1" max="1440" value="30">
+        </label>
+      </div>
+      <button type="submit" class="primary">Agregar sitio</button>
+    </form>
+    <p id="main-message" class="message" role="alert"></p>
+  </section>
+
+  <script type="module" src="popup.js"></script>
+</body>
+</html>
